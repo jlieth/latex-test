@@ -20,3 +20,24 @@ jobs:
       with:
         name: compiled-document
         path: ./document.pdf
+    
+    - name: Create Draft Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: hashfiles(document.pdf)
+        release_name: document
+        draft: true
+        prerelease: false
+    
+    - uses: actions/upload-release-asset@v1.0.1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./document.pdf
+        asset_name: document.pdf
+        asset_content_type: application/pdf
+

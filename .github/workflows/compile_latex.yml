@@ -20,24 +20,12 @@ jobs:
       with:
         name: compiled-document
         path: ./document.pdf
-    
-    - name: Create Draft Release
-      id: create_release
-      uses: actions/create-release@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - uses: "marvinpinto/action-automatic-releases@latest"
       with:
-        tag_name: hashfiles(document.pdf)
-        release_name: document
-        draft: true
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "latest"
         prerelease: false
-    
-    - uses: actions/upload-release-asset@v1.0.1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./document.pdf
-        asset_name: document.pdf
-        asset_content_type: application/pdf
+        title: "Latest Release Build"
+        files: document.pdf
 

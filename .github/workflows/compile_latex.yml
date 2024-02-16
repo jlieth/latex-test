@@ -17,7 +17,7 @@ jobs:
 
     - name: Install LaTeX
       if: steps.cache.outputs.cache-hit != 'true'
-      run: sudo apt-get install texlive-full
+      run: sudo apt-get update && sudo apt-get install --fix-missing texlive-full
 
     - name: Compile LaTeX Document
       run: pdflatex -interaction=nonstopmode document.tex

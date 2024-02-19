@@ -19,16 +19,21 @@ jobs:
     - name: Compile LaTeX Document
       run: pdflatex -interaction=nonstopmode document.tex
 
-    - uses: rickstaa/action-create-tag@v1
-      id: "tag_create"
+    - name: Delete old tag
+      uses: ClementTsang/delete-tag-and-release@v0.3.1
+      with:
+        delete_release: false
+        tag_name: latest
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Create new tag
+      uses: rickstaa/action-create-tag@v1
       with:
         tag: latest
-        tag_exists_error: false
-        force_push_tag: true
-        no_verify_tag: true
         message: Latest build
 
-    - name: Create a GitHub release
+    - name: Create GitHub release
       uses: ncipollo/release-action@v1
       with:
         tag: latest

@@ -20,7 +20,7 @@ jobs:
       run: pdflatex -interaction=nonstopmode document.tex
 
     - name: Delete old tag
-      uses: ClementTsang/delete-tag-and-release@v0.3.1
+      uses: ClementTsang/delete-tag-and-release@v0.4.0
       with:
         delete_release: false
         tag_name: latest

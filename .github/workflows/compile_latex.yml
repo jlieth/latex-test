@@ -5,9 +5,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      COMMIT_MSG: ${{ github.event.head_commit.message }}
-
     steps:
     - uses: actions/checkout@v4
 
@@ -22,7 +19,7 @@ jobs:
     - name: Delete old tag
       uses: ClementTsang/delete-tag-and-release@v0.4.0
       with:
-        delete_release: false
+        delete_release: true
         tag_name: latest
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -34,9 +31,15 @@ jobs:
         message: Latest build
 
     - name: Create GitHub release
-      uses: ncipollo/release-action@v1
+      uses: shogo82148/actions-create-release@v1
       with:
-        tag: latest
-        name: Latest Build
-        body: ${{ env.COMMIT_MSG }}
+        tag_name: latest
+        release_name: Latest Build
+        generate_release_notes: true
+
+    - name: Add PDF to release
+      uses: shogo82148/actions-upload-release-asset@v1
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: document.pdf
 

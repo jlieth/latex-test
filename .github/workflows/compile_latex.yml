@@ -24,6 +24,7 @@ jobs:
       with:
         tag: latest
         tag_exists_error: false
+        force_push_tag: true
         message: Latest build
 
     - name: Create a GitHub release
